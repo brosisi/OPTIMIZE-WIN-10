@@ -4,8 +4,8 @@ import psutil
 BG="#000000"; P="#111111"; FG="#eeeeee"; M="#999999"
 TXT={"en":{"dash":"DASHBOARD","apps":"APP BOOSTER","clean":"DISK CLEANER","settings":"SETTINGS","cpu":"CPU","ram":"RAM","disk":"DISK","refresh":"REFRESH","choose":"Choose a running process","boost":"SET ABOVE NORMAL","cleanbtn":"CLEAN TEMP FILES","restore":"CREATE RESTORE POINT","startup":"ENABLE STARTUP SCAN","manual":"MANUAL MODE — changes need your action","warning":"Conservative tools. No Windows services disabled; Realtime priority is excluded.","lang":"العربية","ask":"Delete temporary files? Files in use are skipped.","done":"Deleted {} files; skipped {}.","askrp":"Request a Windows restore point? Admin rights/System Protection may be required.","rpok":"Restore point command completed.","rpfail":"Restore point failed. Run as Administrator and check System Protection.","noapp":"Select a process first.","boostok":"Priority set to Above Normal.","boostfail":"Could not change priority."},"ar":{"dash":"لوحة التحكم","apps":"معزز التطبيقات","clean":"تنظيف الملفات","settings":"الإعدادات","cpu":"المعالج","ram":"الذاكرة","disk":"القرص","refresh":"تحديث","choose":"اختر عملية قيد التشغيل","boost":"تعيين أولوية أعلى من العادية","cleanbtn":"تنظيف الملفات المؤقتة","restore":"إنشاء نقطة استعادة","startup":"تفعيل فحص بدء التشغيل","manual":"الوضع اليدوي — التغييرات بموافقتك","warning":"أدوات محافظة. لا نعطّل خدمات ويندوز ولا نستخدم أولوية الوقت الحقيقي.","lang":"English","ask":"حذف الملفات المؤقتة؟ سيتم تخطي الملفات المستخدمة.","done":"تم حذف {} ملف وتخطي {}.","askrp":"طلب إنشاء نقطة استعادة؟ قد تحتاج صلاحيات المسؤول وحماية النظام.","rpok":"اكتمل أمر نقطة الاستعادة.","rpfail":"فشل إنشاء نقطة الاستعادة. شغّل كمسؤول وتحقق من حماية النظام.","noapp":"اختر عملية أولاً.","boostok":"تم تعيين الأولوية أعلى من العادية.","boostfail":"تعذر تغيير الأولوية."}}
 class App:
- def __init__(s,r):
-  s.r=r;s.l="en";s.t=TXT[s.l];s.pid=None;r.title("OPTIMIZE WIN 10");r.geometry("950x650");r.configure(bg=BG);r.minsize(800,520)
+ def __init__(s,r,lang="en"):
+  s.r=r;s.l=lang;s.t=TXT[s.l];s.pid=None;r.title("OPTIMIZE WIN 10");r.geometry("950x650");r.configure(bg=BG);r.minsize(800,520)
   h=tk.Frame(r,bg=BG);h.pack(fill="x",padx=20,pady=16);tk.Label(h,text="OPTIMIZE WIN 10",bg=BG,fg=FG,font=("Segoe UI",20,"bold")).pack(side="left")
   s.lb=s.btn(h,"العربية",s.toggle);s.lb.pack(side="right");s.md=tk.Label(h,text=s.t["manual"],bg=BG,fg=M);s.md.pack(side="right",padx=16)
   s.nav=tk.Frame(r,bg=BG);s.nav.pack(fill="x",padx=20);s.body=tk.Frame(r,bg=BG);s.body.pack(fill="both",expand=True,padx=20,pady=14)
@@ -80,13 +80,25 @@ class App:
   try:
    import winreg
    cmd=f'"{sys.executable}" --startup-scan' if getattr(sys,"frozen",False) else f'"{sys.executable}" "{os.path.abspath(__file__)}" --startup-scan'
-   with winreg.OpenKey(winreg.HKEY_CURRENT_USER,r"Software\\Microsoft\\Windows\\CurrentVersion\\Run",0,winreg.KEY_SET_VALUE) as k:winreg.SetValueEx(k,"OptimizeWin10",0,winreg.REG_SZ,cmd)
+   with winreg.OpenKey(winreg.HKEY_CURRENT_USER,r"Software\Microsoft\Windows\CurrentVersion\Run",0,winreg.KEY_SET_VALUE) as k:winreg.SetValueEx(k,"OptimizeWin10",0,winreg.REG_SZ,cmd)
    s.status.set("Startup scan enabled")
   except Exception as e:messagebox.showerror("OPTIMIZE",str(e))
  def toggle(s):
   s.l="ar" if s.l=="en" else "en";s.t=TXT[s.l];s.lb.config(text=s.t["lang"]);s.md.config(text=s.t["manual"])
   for k,b in s.nb:b.config(text=s.t[k])
   s.dashboard()
-if __name__=="__main__":
+def launch():
  if os.name!="nt":raise SystemExit("Windows only")
- root=tk.Tk();App(root);root.mainloop()
+ root=tk.Tk();root.title("OPTIMIZE WIN 10");root.geometry("620x360");root.configure(bg="#000000");root.resizable(False,False)
+ tk.Label(root,text="OPTIMIZE WIN 10",bg="#000000",fg="#eeeeee",font=("Segoe UI",24,"bold")).pack(pady=(55,12))
+ msg=tk.Label(root,text="LOADING...",bg="#000000",fg="#888888",font=("Segoe UI",10));msg.pack()
+ bar=ttk.Progressbar(root,mode="indeterminate",length=260);bar.pack(pady=22);bar.start(12)
+ def choose():
+  bar.stop();msg.config(text="CHOOSE LANGUAGE / اختر اللغة")
+  row=tk.Frame(root,bg="#000000");row.pack(pady=20)
+  def go(lang):
+   root.destroy();win=tk.Tk();App(win,lang);win.mainloop()
+  tk.Button(row,text="العربية",command=lambda:go("ar"),bg="#191919",fg="white",relief="flat",padx=25,pady=12).pack(side="left",padx=10)
+  tk.Button(row,text="English",command=lambda:go("en"),bg="#191919",fg="white",relief="flat",padx=25,pady=12).pack(side="left",padx=10)
+ root.after(1100,choose);root.mainloop()
+if __name__=="__main__":launch()
