@@ -36,7 +36,17 @@ class App:
    except Exception:pass
   for n,p,m in sorted(a,key=lambda x:x[2],reverse=True)[:120]:s.tr.insert("","end",values=(n,p,f"{m:.1f}"))
  def dashboard(s):
-  s.clear();s.head("dash",s.t["warning"]);row=tk.Frame(s.body,bg=BG);row.pack(fill="x",pady=8);s.v={}
+  s.clear()
+  top=tk.Frame(s.body,bg=BG);top.pack(fill="x")
+  title=tk.Frame(top,bg=BG);title.pack(side="left",fill="x",expand=True)
+  tk.Label(title,text=s.t["dash"],bg=BG,fg=FG,font=("Segoe UI",18,"bold")).pack(anchor="w")
+  tk.Label(title,text=s.t["warning"],bg=BG,fg=M).pack(anchor="w",pady=(4,0))
+  winlogo=tk.Canvas(top,width=62,height=54,bg=BG,highlightthickness=0);winlogo.pack(side="right",padx=8,pady=2)
+  winlogo.create_polygon(3,7,29,4,29,25,3,27,fill="#FFFFFF",outline="")
+  winlogo.create_polygon(33,3,59,0,59,23,33,25,fill="#FFFFFF",outline="")
+  winlogo.create_polygon(3,31,29,29,29,51,3,47,fill="#FFFFFF",outline="")
+  winlogo.create_polygon(33,29,59,26,59,52,33,51,fill="#FFFFFF",outline="")
+  row=tk.Frame(s.body,bg=BG);row.pack(fill="x",pady=8);s.v={}
   for k in ("cpu","ram","disk"):
    f=tk.Frame(row,bg=P,padx=18,pady=14);f.pack(side="left",fill="both",expand=True,padx=(0,10));tk.Label(f,text=s.t[k],bg=P,fg=M).pack(anchor="w");v=tk.Label(f,text="--",bg=P,fg=FG,font=("Segoe UI",23,"bold"));v.pack(anchor="w",pady=8);s.v[k]=v
   actions=tk.Frame(s.body,bg=BG);actions.pack(fill="x",pady=(8,10))
@@ -46,6 +56,7 @@ class App:
   s.btn(quick,"APP BOOSTER",s.apps).pack(side="left",padx=(0,8))
   s.btn(quick,s.t["cleanbtn"],s.cleaner).pack(side="left",padx=(0,8))
   s.btn(quick,s.t["restore"],s.restore).pack(side="left",padx=(0,8))
+  s.btn(quick,s.t["uninstall"],s.uninstall_apps).pack(side="left",padx=(0,8))
   s.btn(quick,s.t["drivers"],s.drivers).pack(side="left")
   s.btn(s.body,s.t["refresh"],s.refresh).pack(anchor="e",pady=5);s.tree(8)
  def tick(s):
