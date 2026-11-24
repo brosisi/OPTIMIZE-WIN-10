@@ -8,7 +8,7 @@ on:
       - requirements.txt
       - .github/workflows/build-exe.yml
 permissions:
-  contents: read
+  contents: write
 jobs:
   build:
     runs-on: windows-latest
@@ -25,3 +25,10 @@ jobs:
           name: OPTIMIZE-WIN-10-EXE
           path: dist/OPTIMIZE WIN 10.exe
           if-no-files-found: error
+      - name: Publish EXE to GitHub Releases
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: OPTIMIZE WIN 10 build ${{ github.run_number }}
+          files: dist/OPTIMIZE WIN 10.exe
+          generate_release_notes: true
