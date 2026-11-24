@@ -18,17 +18,45 @@ jobs:
         with:
           python-version: '3.11'
       - run: python -m pip install --upgrade pip
-      - run: pip install -r requirements.txt pyinstaller
-      - run: pyinstaller --noconfirm --clean --onefile --windowed --name "OPTIMIZE WIN 10" main.py
+      - run: pip install -r requirements.txt pyinstaller==6.16.0 pillow
+      - name: Generate Windows feather icon
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force assets | Out-Null
+          @'
+          from PIL import Image, ImageDraw
+          im = Image.new("RGBA", (256, 256), (0, 0, 0, 0))
+          d = ImageDraw.Draw(im)
+          d.polygon([(36,220),(61,143),(97,76),(173,25),(222,17),(215,65),(167,135),(104,190)], fill=(198,203,210,255), outline=(245,246,248,255))
+          d.line([(36,220),(222,17)], fill=(255,255,255,255), width=8)
+          d.line([(70,177),(115,171),(166,135)], fill=(105,112,121,255), width=5)
+          d.line([(91,137),(132,131),(183,91)], fill=(105,112,121,255), width=5)
+          d.line([(119,96),(155,91),(201,53)], fill=(105,112,121,255), width=5)
+          im.save("assets/feather-logo.ico", format="ICO", sizes=[(16,16),(24,24),(32,32),(48,48),(64,64),(128,128),(256,256)])
+          '@ | Set-Content -Encoding UTF8 make_icon.py
+          python make_icon.py
+      - name: Build standalone EXE
+        run: pyinstaller --noconfirm --clean --onefile --windowed --icon assets/feather-logo.ico --add-data "assets/feather-logo.ico;assets" --name "OPTIMIZE WIN 10" main.py
+      - name: Verify embedded PyInstaller archive
+        run: pyi-archive_viewer -l "dist/OPTIMIZE WIN 10.exe"
+      - name: Generate SHA256 checksum
+        shell: pwsh
+        run: |
+          $hash = (Get-FileHash "dist/OPTIMIZE WIN 10.exe" -Algorithm SHA256).Hash
+          "$hash  OPTIMIZE WIN 10.exe" | Out-File -Encoding ascii "dist/OPTIMIZE-WIN-10-SHA256.txt"
       - uses: actions/upload-artifact@v4
         with:
           name: OPTIMIZE-WIN-10-EXE
-          path: dist/OPTIMIZE WIN 10.exe
+          path: |
+            dist/OPTIMIZE WIN 10.exe
+            dist/OPTIMIZE-WIN-10-SHA256.txt
           if-no-files-found: error
       - name: Publish EXE to GitHub Releases
         uses: softprops/action-gh-release@v2
         with:
           tag_name: build-${{ github.run_number }}
           name: OPTIMIZE WIN 10 build ${{ github.run_number }}
-          files: dist/OPTIMIZE WIN 10.exe
+          files: |
+            dist/OPTIMIZE WIN 10.exe
+            dist/OPTIMIZE-WIN-10-SHA256.txt
           generate_release_notes: true
