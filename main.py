@@ -69,8 +69,22 @@ class App:
  def apps(s):
   s.clear();s.head("apps",s.t["warning"]);tk.Label(s.body,text=s.t["choose"],bg=BG,fg=FG).pack(anchor="w");s.tree(11);row=tk.Frame(s.body,bg=BG);row.pack(fill="x",pady=10);s.btn(row,s.t["boost"],s.boost).pack(side="left",padx=(0,8));s.btn(row,s.t["uninstall"],s.uninstall_apps).pack(side="left")
  def optimize_now(s):
-  if not messagebox.askyesno("OPTIMIZE", "Run the selected safe optimization: clean temporary files?\nسيتم تنظيف الملفات المؤقتة فقط. هل تريد المتابعة؟"):return
-  s.clean(confirmed=True)
+  s.clear()
+  s.head("dash", "Choose optimization actions before applying them." if s.l=="en" else "اختر عمليات التحسين قبل تنفيذها.")
+  panel=tk.Frame(s.body,bg=P,padx=18,pady=16);panel.pack(fill="x",pady=10)
+  tk.Label(panel,text="OPTIMIZATION OPTIONS" if s.l=="en" else "خيارات التحسين",bg=P,fg=FG,font=("Segoe UI",12,"bold")).pack(anchor="w",pady=(0,10))
+  clean_var=tk.BooleanVar(value=True)
+  tk.Checkbutton(panel,text="Clean temporary files" if s.l=="en" else "تنظيف الملفات المؤقتة",variable=clean_var,bg=P,fg=FG,selectcolor="#222222",activebackground=P,activeforeground=FG).pack(anchor="w",pady=5)
+  tk.Label(panel,text="Only selected safe actions will run. Restart is recommended after optimization." if s.l=="en" else "سيتم تنفيذ الخيارات المحددة فقط. يُنصح بإعادة تشغيل الجهاز بعد التحسين.",bg=P,fg=M,wraplength=760,justify="left").pack(anchor="w",pady=(8,12))
+  row=tk.Frame(s.body,bg=BG);row.pack(anchor="w",pady=8)
+  def confirm():
+   if not clean_var.get():
+    messagebox.showwarning("OPTIMIZE","Select at least one action." if s.l=="en" else "حدد عملية واحدة على الأقل.")
+    return
+   if not messagebox.askyesno("OPTIMIZE","Confirm selected optimization? Temporary files will be deleted." if s.l=="en" else "هل تؤكد تنفيذ التحسين المحدد؟ سيتم حذف الملفات المؤقتة."):return
+   s.clean(confirmed=True,show_restart=True)
+  s.btn(row,"CONFIRM OPTIMIZATION" if s.l=="en" else "تأكيد التحسين",confirm).pack(side="left",padx=(0,8))
+  s.btn(row,"CANCEL" if s.l=="en" else "إلغاء",s.dashboard).pack(side="left")
  def uninstall_apps(s):
   if not messagebox.askyesno("OPTIMIZE", "Open Windows Apps and Features to uninstall programs?"):
    return
@@ -85,7 +99,7 @@ class App:
   except Exception as e:messagebox.showerror("OPTIMIZE",s.t["boostfail"]+"\n"+str(e))
  def cleaner(s):
   s.clear();s.head("clean",s.t["warning"]);s.btn(s.body,s.t["cleanbtn"],s.clean).pack(anchor="w",pady=10)
- def clean(s,confirmed=False):
+ def clean(s,confirmed=False,show_restart=False):
   if not confirmed and not messagebox.askyesno("OPTIMIZE",s.t["ask"]):return
   d=x=0
   for root,ds,fs in os.walk(tempfile.gettempdir(),topdown=False):
@@ -96,6 +110,8 @@ class App:
     try:shutil.rmtree(os.path.join(root,n))
     except Exception:x+=1
   msg=s.t["done"].format(d,x);s.status.set(msg);messagebox.showinfo("OPTIMIZE",msg)
+  if show_restart:
+   messagebox.showinfo("OPTIMIZE","Optimization completed. Restart Windows for the best result." if s.l=="en" else "اكتمل التحسين. يُنصح بإعادة تشغيل ويندوز للحصول على أفضل نتيجة.")
  def restore(s):
   if not messagebox.askyesno("OPTIMIZE",s.t["askrp"]):return
   def job():
@@ -147,13 +163,33 @@ class App:
   s.btn(row,s.t["drvbackup"],backup).pack(side="left")
   load()
  def settings(s):
-  s.clear();s.head("settings",s.t["manual"]);s.btn(s.body,s.t["restore"],s.restore).pack(anchor="w",pady=8);s.btn(s.body,s.t["startup"],s.startup).pack(anchor="w",pady=8)
- def startup(s):
+  s.clear();s.head("settings",s.t["manual"])
+  s.btn(s.body,s.t["restore"],s.restore).pack(anchor="w",pady=8)
+  s.startup_btn=s.btn(s.body,"",s.toggle_startup);s.startup_btn.pack(anchor="w",pady=8)
+  s.update_startup_label()
+ def update_startup_label(s):
   try:
    import winreg
-   cmd=f'"{sys.executable}" --startup-scan' if getattr(sys,"frozen",False) else f'"{sys.executable}" "{os.path.abspath(__file__)}" --startup-scan'
-   with winreg.OpenKey(winreg.HKEY_CURRENT_USER,r"Software\Microsoft\Windows\CurrentVersion\Run",0,winreg.KEY_SET_VALUE) as k:winreg.SetValueEx(k,"OptimizeWin10",0,winreg.REG_SZ,cmd)
-   s.status.set("Startup scan enabled")
+   with winreg.OpenKey(winreg.HKEY_CURRENT_USER,r"Software\\Microsoft\\Windows\\CurrentVersion\\Run") as k:winreg.QueryValueEx(k,"OptimizeWin10")
+   enabled=True
+  except Exception:enabled=False
+  s.startup_enabled=enabled
+  if hasattr(s,"startup_btn") and s.startup_btn.winfo_exists():
+   s.startup_btn.config(text=("DISABLE APP STARTUP" if enabled else "ENABLE APP STARTUP") if s.l=="en" else ("إيقاف تشغيل التطبيق مع بدء ويندوز" if enabled else "تشغيل التطبيق مع بدء ويندوز"))
+ def toggle_startup(s):
+  try:
+   import winreg
+   with winreg.OpenKey(winreg.HKEY_CURRENT_USER,r"Software\\Microsoft\\Windows\\CurrentVersion\\Run",0,winreg.KEY_SET_VALUE) as k:
+    if getattr(s,"startup_enabled",False):
+     try:winreg.DeleteValue(k,"OptimizeWin10")
+     except FileNotFoundError:pass
+     s.status.set("App startup disabled")
+    else:
+     if getattr(sys,"frozen",False):cmd='"'+sys.executable+'"'
+     else:cmd='"'+sys.executable+'" "'+os.path.abspath(__file__)+'"'
+     winreg.SetValueEx(k,"OptimizeWin10",0,winreg.REG_SZ,cmd)
+     s.status.set("App startup enabled")
+   s.update_startup_label()
   except Exception as e:messagebox.showerror("OPTIMIZE",str(e))
  def toggle(s):
   s.l="ar" if s.l=="en" else "en";s.t=TXT[s.l];s.lb.config(text=s.t["lang"]);s.md.config(text=s.t["manual"])
