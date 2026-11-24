@@ -2,7 +2,7 @@ import os,sys,shutil,tempfile,subprocess,threading,tkinter as tk
 from tkinter import ttk,messagebox
 import psutil
 BG="#000000"; P="#111111"; FG="#eeeeee"; M="#999999"
-TXT={"en":{"dash":"DASHBOARD","apps":"APP BOOSTER","clean":"DISK CLEANER","settings":"SETTINGS","cpu":"CPU","ram":"RAM","disk":"DISK","refresh":"REFRESH","choose":"Choose a running process","boost":"SET ABOVE NORMAL","optimize":"OPTIMIZE NOW","uninstall":"UNINSTALL APPS","cleanbtn":"CLEAN TEMP FILES","restore":"CREATE RESTORE POINT","startup":"ENABLE STARTUP SCAN","manual":"MANUAL MODE — changes need your action","warning":"Conservative tools. No Windows services disabled; Realtime priority is excluded.","drivers":"OFFLINE DRIVERS","drvsub":"Install compatible drivers from a local folder. Internet is not required.","drvchoose":"SELECT DRIVER FOLDER","drvinstall":"INSTALL SELECTED DRIVER","drvempty":"No INF driver files found in this folder.","drvselect":"Select an INF driver first.","drvconfirm":"Install this driver using Windows PnPUtil? Only install drivers intended for your Acer Aspire 5336.","drvok":"Windows accepted the driver installation command. Restart may be required.","drvfail":"Driver installation failed. Run as Administrator and verify driver compatibility.","drvfolder":"Driver folder: {}","drvbackup":"BACK UP INSTALLED DRIVERS","lang":"العربية","ask":"Delete temporary files? Files in use are skipped.","done":"Deleted {} files; skipped {}.","askrp":"Request a Windows restore point? Admin rights/System Protection may be required.","rpok":"Restore point command completed.","rpfail":"Restore point failed. Run as Administrator and check System Protection.","noapp":"Select a process first.","boostok":"Priority set to Above Normal.","boostfail":"Could not change priority."},"ar":{"dash":"لوحة التحكم","apps":"معزز التطبيقات","clean":"تنظيف الملفات","settings":"الإعدادات","cpu":"المعالج","ram":"الذاكرة","disk":"القرص","refresh":"تحديث","choose":"اختر عملية قيد التشغيل","boost":"تعيين أولوية أعلى من العادية","optimize":"تحسين الآن","uninstall":"إزالة التطبيقات","cleanbtn":"تنظيف الملفات المؤقتة","restore":"إنشاء نقطة استعادة","startup":"تفعيل فحص بدء التشغيل","manual":"الوضع اليدوي — التغييرات بموافقتك","warning":"أدوات محافظة. لا نعطّل خدمات ويندوز ولا نستخدم أولوية الوقت الحقيقي.","drivers":"التعريفات بدون إنترنت","drvsub":"تثبيت تعريفات متوافقة من مجلد محلي دون الحاجة للإنترنت.","drvchoose":"اختيار مجلد التعريفات","drvinstall":"تثبيت التعريف المحدد","drvempty":"لم يتم العثور على ملفات تعريف INF في هذا المجلد.","drvselect":"اختر ملف تعريف INF أولاً.","drvconfirm":"هل تريد تثبيت هذا التعريف باستخدام أداة ويندوز؟ ثبّت فقط تعريفاً مخصصاً لجهاز Acer Aspire 5336.","drvok":"قبل ويندوز أمر تثبيت التعريف. قد تحتاج إلى إعادة التشغيل.","drvfail":"فشل تثبيت التعريف. شغّل البرنامج كمسؤول وتأكد من توافق التعريف.","drvfolder":"مجلد التعريفات: {}","drvbackup":"نسخ احتياطي للتعريفات المثبتة","lang":"English","ask":"حذف الملفات المؤقتة؟ سيتم تخطي الملفات المستخدمة.","done":"تم حذف {} ملف وتخطي {}.","askrp":"طلب إنشاء نقطة استعادة؟ قد تحتاج صلاحيات المسؤول وحماية النظام.","rpok":"اكتمل أمر نقطة الاستعادة.","rpfail":"فشل إنشاء نقطة الاستعادة. شغّل كمسؤول وتحقق من حماية النظام.","noapp":"اختر عملية أولاً.","boostok":"تم تعيين الأولوية أعلى من العادية.","boostfail":"تعذر تغيير الأولوية."}}
+TXT={"en":{"dash":"DASHBOARD","apps":"APP BOOSTER","clean":"DISK CLEANER","settings":"SETTINGS","cpu":"CPU","ram":"RAM","disk":"DISK","refresh":"REFRESH","choose":"Choose a running process","boost":"SET ABOVE NORMAL","optimize":"OPTIMIZE NOW","uninstall":"UNINSTALL APPS","cleanbtn":"CLEAN TEMP FILES","restore":"CREATE RESTORE POINT","startup":"ENABLE STARTUP SCAN","manual":"MANUAL MODE — changes need your action","warning":"Conservative tools. No Windows services disabled; Realtime priority is excluded.","drivers":"OFFLINE DRIVERS","drvsub":"Scan the bundled Drivers folder and install matching INF packages offline.","drvchoose":"SELECT DRIVER FOLDER","drvinstall":"INSTALL SELECTED DRIVER","drvauto":"SCAN & INSTALL MATCHING DRIVERS","drvempty":"No INF driver files found in this folder.","drvselect":"Select an INF driver first.","drvconfirm":"Install this driver using Windows PnPUtil? Only install drivers intended for your Acer Aspire 5336.","drvok":"Windows accepted the driver installation command. Restart may be required.","drvfail":"Driver installation failed. Run as Administrator and verify driver compatibility.","drvfolder":"Driver folder: {}","drvbackup":"BACK UP INSTALLED DRIVERS","lang":"العربية","ask":"Delete temporary files? Files in use are skipped.","done":"Deleted {} files; skipped {}.","askrp":"Request a Windows restore point? Admin rights/System Protection may be required.","rpok":"Restore point command completed.","rpfail":"Restore point failed. Run as Administrator and check System Protection.","noapp":"Select a process first.","boostok":"Priority set to Above Normal.","boostfail":"Could not change priority."},"ar":{"dash":"لوحة التحكم","apps":"معزز التطبيقات","clean":"تنظيف الملفات","settings":"الإعدادات","cpu":"المعالج","ram":"الذاكرة","disk":"القرص","refresh":"تحديث","choose":"اختر عملية قيد التشغيل","boost":"تعيين أولوية أعلى من العادية","optimize":"تحسين الآن","uninstall":"إزالة التطبيقات","cleanbtn":"تنظيف الملفات المؤقتة","restore":"إنشاء نقطة استعادة","startup":"تفعيل فحص بدء التشغيل","manual":"الوضع اليدوي — التغييرات بموافقتك","warning":"أدوات محافظة. لا نعطّل خدمات ويندوز ولا نستخدم أولوية الوقت الحقيقي.","drivers":"التعريفات بدون إنترنت","drvsub":"فحص مجلد Drivers المرفق وتثبيت ملفات INF المطابقة دون إنترنت.","drvchoose":"اختيار مجلد التعريفات","drvinstall":"تثبيت التعريف المحدد","drvauto":"فحص وتثبيت التعريفات المتطابقة","drvempty":"لم يتم العثور على ملفات تعريف INF في هذا المجلد.","drvselect":"اختر ملف تعريف INF أولاً.","drvconfirm":"هل تريد تثبيت هذا التعريف باستخدام أداة ويندوز؟ ثبّت فقط تعريفاً مخصصاً لجهاز Acer Aspire 5336.","drvok":"قبل ويندوز أمر تثبيت التعريف. قد تحتاج إلى إعادة التشغيل.","drvfail":"فشل تثبيت التعريف. شغّل البرنامج كمسؤول وتأكد من توافق التعريف.","drvfolder":"مجلد التعريفات: {}","drvbackup":"نسخ احتياطي للتعريفات المثبتة","lang":"English","ask":"حذف الملفات المؤقتة؟ سيتم تخطي الملفات المستخدمة.","done":"تم حذف {} ملف وتخطي {}.","askrp":"طلب إنشاء نقطة استعادة؟ قد تحتاج صلاحيات المسؤول وحماية النظام.","rpok":"اكتمل أمر نقطة الاستعادة.","rpfail":"فشل إنشاء نقطة الاستعادة. شغّل كمسؤول وتحقق من حماية النظام.","noapp":"اختر عملية أولاً.","boostok":"تم تعيين الأولوية أعلى من العادية.","boostfail":"تعذر تغيير الأولوية."}}
 class App:
  def __init__(s,r,lang="en"):
   s.r=r;s.l=lang;s.t=TXT[s.l];s.pid=None;r.title("OPTIMIZE WIN 10");r.geometry("950x650");r.configure(bg=BG);r.minsize(800,520)
@@ -140,13 +140,28 @@ class App:
   def install():
    sel=s.driver_list.curselection()
    if not sel:messagebox.showwarning("OPTIMIZE",s.t["drvselect"]);return
-   path=s.driver_files[sel[0]]
-   if not messagebox.askyesno("OPTIMIZE",s.t["drvconfirm"]+"\\n"+path):return
-   try:
-    result=subprocess.run(["pnputil.exe","/add-driver",path,"/install"],capture_output=True,text=True,timeout=180)
-    if result.returncode==0:messagebox.showinfo("OPTIMIZE",s.t["drvok"]+"\\n"+result.stdout[-1000:])
-    else:messagebox.showerror("OPTIMIZE",s.t["drvfail"]+"\\n"+result.stderr[-1000:]+result.stdout[-1000:])
-   except Exception as e:messagebox.showerror("OPTIMIZE",str(e))
+   install_paths=[s.driver_files[i] for i in sel]
+   run_install(install_paths)
+  def install_all():
+   load()
+   if not s.driver_files:
+    messagebox.showwarning("OPTIMIZE",s.t["drvempty"]);return
+   run_install(s.driver_files)
+  def run_install(paths):
+   if not messagebox.askyesno("OPTIMIZE",s.t["drvconfirm"]+"\\n"+str(len(paths))+" INF package(s) will be checked by Windows."):
+    return
+   ok=0;failed=[]
+   for path in paths:
+    try:
+     result=subprocess.run(["pnputil.exe","/add-driver",path,"/install"],capture_output=True,text=True,timeout=180)
+     if result.returncode==0:ok+=1
+     else:failed.append(os.path.basename(path)+": "+(result.stderr or result.stdout)[-350:])
+    except Exception as e:failed.append(os.path.basename(path)+": "+str(e))
+   report=("Windows processed "+str(ok)+" package(s).\\n")
+   if failed:report+="Failed: "+str(len(failed))+"\\n"+"\\n".join(failed[:8])
+   report+="\\nA successful command does not guarantee that a device needed this driver; check Device Manager."
+   messagebox.showinfo("OPTIMIZE",report)
+   s.status.set("Driver packages processed: "+str(ok)+" / "+str(len(paths)))
   def backup():
    folder=filedialog.askdirectory(title="Choose backup destination")
    if not folder:return
@@ -160,6 +175,7 @@ class App:
   row=tk.Frame(s.body,bg=BG);row.pack(fill="x",pady=8)
   s.btn(row,s.t["drvchoose"],choose).pack(side="left",padx=(0,8))
   s.btn(row,s.t["drvinstall"],install).pack(side="left",padx=(0,8))
+  s.btn(row,s.t["drvauto"],install_all).pack(side="left",padx=(0,8))
   s.btn(row,s.t["drvbackup"],backup).pack(side="left")
   load()
  def settings(s):
