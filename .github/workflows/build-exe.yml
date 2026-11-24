@@ -54,8 +54,8 @@ jobs:
       - name: Publish EXE to GitHub Releases
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: build-${{ github.run_number }}
-          name: OPTIMIZE WIN 10 build ${{ github.run_number }}
+          tag_name: v1.0
+          name: OPTIMIZE WIN 10 v1.0
           files: |
             dist/OPTIMIZE WIN 10.exe
             dist/OPTIMIZE-WIN-10-SHA256.txt
