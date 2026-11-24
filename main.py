@@ -43,7 +43,8 @@ class App:
  def tick(s):
   try:
    if hasattr(s,"v"):
-    s.v["cpu"].config(text=f"{psutil.cpu_percent()}%");s.v["ram"].config(text=f"{psutil.virtual_memory().percent}%");s.v["disk"].config(text=f"{psutil.disk_usage(os.environ.get('SystemDrive','C:')+'\\').percent}%")
+    disk = psutil.disk_usage(os.environ.get("SystemDrive", "C:") + "\\").percent
+    s.v["cpu"].config(text=f"{psutil.cpu_percent()}%");s.v["ram"].config(text=f"{psutil.virtual_memory().percent}%");s.v["disk"].config(text=f"{disk}%")
   except Exception:pass
   s.r.after(2500,s.tick)
  def apps(s):
