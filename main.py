@@ -170,7 +170,7 @@ class App:
  def update_startup_label(s):
   try:
    import winreg
-   with winreg.OpenKey(winreg.HKEY_CURRENT_USER,r"Software\\Microsoft\\Windows\\CurrentVersion\\Run") as k:winreg.QueryValueEx(k,"OptimizeWin10")
+   with winreg.OpenKey(winreg.HKEY_CURRENT_USER,r"Software\Microsoft\Windows\CurrentVersion\Run") as k:winreg.QueryValueEx(k,"OptimizeWin10")
    enabled=True
   except Exception:enabled=False
   s.startup_enabled=enabled
@@ -179,7 +179,7 @@ class App:
  def toggle_startup(s):
   try:
    import winreg
-   with winreg.OpenKey(winreg.HKEY_CURRENT_USER,r"Software\\Microsoft\\Windows\\CurrentVersion\\Run",0,winreg.KEY_SET_VALUE) as k:
+   with winreg.OpenKey(winreg.HKEY_CURRENT_USER,r"Software\Microsoft\Windows\CurrentVersion\Run",0,winreg.KEY_SET_VALUE) as k:
     if getattr(s,"startup_enabled",False):
      try:winreg.DeleteValue(k,"OptimizeWin10")
      except FileNotFoundError:pass
