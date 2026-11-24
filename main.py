@@ -1,11 +1,19 @@
 import os,sys,shutil,tempfile,subprocess,threading,tkinter as tk
 from tkinter import ttk,messagebox
 import psutil
+
+def resource_path(relative):
+ base=getattr(sys,"_MEIPASS",os.path.dirname(os.path.abspath(__file__)))
+ return os.path.join(base,relative)
+
+def set_window_icon(root):
+ try:root.iconbitmap(resource_path(os.path.join("assets","feather-logo.ico")))
+ except Exception:pass
 BG="#000000"; P="#111111"; FG="#eeeeee"; M="#999999"
 TXT={"en":{"dash":"DASHBOARD","apps":"APP BOOSTER","clean":"DISK CLEANER","settings":"SETTINGS","cpu":"CPU","ram":"RAM","disk":"DISK","refresh":"REFRESH","choose":"Choose a running process","boost":"SET ABOVE NORMAL","optimize":"OPTIMIZE NOW","uninstall":"UNINSTALL APPS","cleanbtn":"CLEAN TEMP FILES","restore":"CREATE RESTORE POINT","startup":"ENABLE STARTUP SCAN","manual":"MANUAL MODE — changes need your action","warning":"Conservative tools. No Windows services disabled; Realtime priority is excluded.","drivers":"OFFLINE DRIVERS","drvsub":"Scan the bundled Drivers folder and install matching INF packages offline.","drvchoose":"SELECT DRIVER FOLDER","drvinstall":"INSTALL SELECTED DRIVER","drvauto":"SCAN & INSTALL MATCHING DRIVERS","drvempty":"No INF driver files found in this folder.","drvselect":"Select an INF driver first.","drvconfirm":"Install this driver using Windows PnPUtil? Only install drivers intended for your Acer Aspire 5336.","drvok":"Windows accepted the driver installation command. Restart may be required.","drvfail":"Driver installation failed. Run as Administrator and verify driver compatibility.","drvfolder":"Driver folder: {}","drvbackup":"BACK UP INSTALLED DRIVERS","lang":"العربية","ask":"Delete temporary files? Files in use are skipped.","done":"Deleted {} files; skipped {}.","askrp":"Request a Windows restore point? Admin rights/System Protection may be required.","rpok":"Restore point command completed.","rpfail":"Restore point failed. Run as Administrator and check System Protection.","noapp":"Select a process first.","boostok":"Priority set to Above Normal.","boostfail":"Could not change priority."},"ar":{"dash":"لوحة التحكم","apps":"معزز التطبيقات","clean":"تنظيف الملفات","settings":"الإعدادات","cpu":"المعالج","ram":"الذاكرة","disk":"القرص","refresh":"تحديث","choose":"اختر عملية قيد التشغيل","boost":"تعيين أولوية أعلى من العادية","optimize":"تحسين الآن","uninstall":"إزالة التطبيقات","cleanbtn":"تنظيف الملفات المؤقتة","restore":"إنشاء نقطة استعادة","startup":"تفعيل فحص بدء التشغيل","manual":"الوضع اليدوي — التغييرات بموافقتك","warning":"أدوات محافظة. لا نعطّل خدمات ويندوز ولا نستخدم أولوية الوقت الحقيقي.","drivers":"التعريفات بدون إنترنت","drvsub":"فحص مجلد Drivers المرفق وتثبيت ملفات INF المطابقة دون إنترنت.","drvchoose":"اختيار مجلد التعريفات","drvinstall":"تثبيت التعريف المحدد","drvauto":"فحص وتثبيت التعريفات المتطابقة","drvempty":"لم يتم العثور على ملفات تعريف INF في هذا المجلد.","drvselect":"اختر ملف تعريف INF أولاً.","drvconfirm":"هل تريد تثبيت هذا التعريف باستخدام أداة ويندوز؟ ثبّت فقط تعريفاً مخصصاً لجهاز Acer Aspire 5336.","drvok":"قبل ويندوز أمر تثبيت التعريف. قد تحتاج إلى إعادة التشغيل.","drvfail":"فشل تثبيت التعريف. شغّل البرنامج كمسؤول وتأكد من توافق التعريف.","drvfolder":"مجلد التعريفات: {}","drvbackup":"نسخ احتياطي للتعريفات المثبتة","lang":"English","ask":"حذف الملفات المؤقتة؟ سيتم تخطي الملفات المستخدمة.","done":"تم حذف {} ملف وتخطي {}.","askrp":"طلب إنشاء نقطة استعادة؟ قد تحتاج صلاحيات المسؤول وحماية النظام.","rpok":"اكتمل أمر نقطة الاستعادة.","rpfail":"فشل إنشاء نقطة الاستعادة. شغّل كمسؤول وتحقق من حماية النظام.","noapp":"اختر عملية أولاً.","boostok":"تم تعيين الأولوية أعلى من العادية.","boostfail":"تعذر تغيير الأولوية."}}
 class App:
  def __init__(s,r,lang="en"):
-  s.r=r;s.l=lang;s.t=TXT[s.l];s.pid=None;r.title("OPTIMIZE WIN 10");r.geometry("950x650");r.configure(bg=BG);r.minsize(800,520)
+  s.r=r;s.l=lang;s.t=TXT[s.l];s.pid=None;r.title("OPTIMIZE WIN 10");set_window_icon(r);r.geometry("950x650");r.configure(bg=BG);r.minsize(800,520)
   h=tk.Frame(r,bg="#0b0b0b",highlightbackground="#303030",highlightthickness=1);h.pack(fill="x",padx=20,pady=(16,12));logo=tk.Canvas(h,width=48,height=42,bg="#0b0b0b",highlightthickness=0);logo.pack(side="left",padx=(14,10),pady=8);logo.create_polygon(7,4,19,7,37,1,31,20,17,37,8,28,fill="#C9CDD2",outline="#F4F4F4",width=1);logo.create_line(8,28,37,1,fill="#FFFFFF",width=2);brand=tk.Frame(h,bg="#0b0b0b");brand.pack(side="left",pady=7);tk.Label(brand,text="OPTIMIZE WIN 10",bg="#080808",fg=FG,font=("Segoe UI",18,"bold")).pack(anchor="w");tk.Label(brand,text="SYSTEM PERFORMANCE CENTER",bg="#080808",fg="#888888",font=("Segoe UI",8,"bold")).pack(anchor="w")
   s.lb=s.btn(h,"العربية",s.toggle);s.lb.pack(side="right");s.md=tk.Label(h,text=s.t["manual"],bg=BG,fg=M);s.md.pack(side="right",padx=16)
   s.nav=tk.Frame(r,bg=BG);s.nav.pack(fill="x",padx=20);s.body=tk.Frame(r,bg=BG);s.body.pack(fill="both",expand=True,padx=20,pady=14)
@@ -213,7 +221,7 @@ class App:
   s.dashboard()
 def launch():
  if os.name!="nt":raise SystemExit("Windows only")
- root=tk.Tk();root.title("OPTIMIZE WIN 10");root.geometry("820x540");root.configure(bg="#050505");root.resizable(False,False)
+ root=tk.Tk();root.title("OPTIMIZE WIN 10");set_window_icon(root);root.geometry("820x540");root.configure(bg="#050505");root.resizable(False,False)
  shell=tk.Frame(root,bg="#0b0b0b",highlightbackground="#3A3A3A",highlightthickness=1);shell.place(relx=.5,rely=.5,anchor="center",width=710,height=440)
  logo=tk.Canvas(shell,width=112,height=96,bg="#0b0b0b",highlightthickness=0);logo.pack(pady=(38,10))
  logo.create_polygon(8,10,46,5,46,39,8,42,fill="#FFFFFF",outline="")
@@ -229,7 +237,7 @@ def launch():
   bar.stop();msg.config(text="SELECT YOUR LANGUAGE  /  اختر اللغة")
   row=tk.Frame(shell,bg="#0c0c0c");row.pack(pady=22)
   def go(lang):
-   root.destroy();win=tk.Tk();App(win,lang);win.mainloop()
+   root.destroy();win=tk.Tk();set_window_icon(win);App(win,lang);win.mainloop()
   for label,lang in [("العربية","ar"),("ENGLISH","en")]:
    tk.Button(row,text=label,command=lambda x=lang:go(x),bg="#202020",fg="#FFFFFF",activebackground="#353535",activeforeground="#FFFFFF",relief="flat",bd=0,padx=30,pady=13,font=("Segoe UI",10,"bold"),cursor="hand2").pack(side="left",padx=8)
  tk.Label(shell,text="MANUAL CONTROL  •  SAFE SYSTEM TWEAKS",bg="#0c0c0c",fg="#666666",font=("Segoe UI",8)).pack(side="bottom",pady=16)
