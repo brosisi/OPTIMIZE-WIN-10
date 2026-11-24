@@ -39,7 +39,14 @@ class App:
   s.clear();s.head("dash",s.t["warning"]);row=tk.Frame(s.body,bg=BG);row.pack(fill="x",pady=8);s.v={}
   for k in ("cpu","ram","disk"):
    f=tk.Frame(row,bg=P,padx=18,pady=14);f.pack(side="left",fill="both",expand=True,padx=(0,10));tk.Label(f,text=s.t[k],bg=P,fg=M).pack(anchor="w");v=tk.Label(f,text="--",bg=P,fg=FG,font=("Segoe UI",23,"bold"));v.pack(anchor="w",pady=8);s.v[k]=v
-  s.btn(s.body,s.t["refresh"],s.refresh).pack(anchor="e",pady=8);s.tree(10)
+  actions=tk.Frame(s.body,bg=BG);actions.pack(fill="x",pady=(8,10))
+  tk.Label(actions,text="QUICK OPTIMIZE",bg=BG,fg=FG,font=("Segoe UI",11,"bold")).pack(anchor="w",pady=(0,7))
+  quick=tk.Frame(actions,bg=BG);quick.pack(fill="x")
+  selfbtn=s.btn(quick,"OPTIMIZE APPS",s.apps);selfbtn.pack(side="left",padx=(0,8))
+  s.btn(quick,s.t["cleanbtn"],s.cleaner).pack(side="left",padx=(0,8))
+  s.btn(quick,s.t["restore"],s.restore).pack(side="left",padx=(0,8))
+  s.btn(quick,s.t["drivers"],s.drivers).pack(side="left")
+  s.btn(s.body,s.t["refresh"],s.refresh).pack(anchor="e",pady=5);s.tree(8)
  def tick(s):
   try:
    if hasattr(s,"v"):
