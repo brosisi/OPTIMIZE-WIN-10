@@ -6,7 +6,7 @@ TXT={"en":{"dash":"DASHBOARD","apps":"APP BOOSTER","clean":"DISK CLEANER","setti
 class App:
  def __init__(s,r,lang="en"):
   s.r=r;s.l=lang;s.t=TXT[s.l];s.pid=None;r.title("OPTIMIZE WIN 10");r.geometry("950x650");r.configure(bg=BG);r.minsize(800,520)
-  h=tk.Frame(r,bg=BG);h.pack(fill="x",padx=20,pady=16);tk.Label(h,text="OPTIMIZE WIN 10",bg=BG,fg=FG,font=("Segoe UI",20,"bold")).pack(side="left")
+  h=tk.Frame(r,bg="#080808",highlightbackground="#242424",highlightthickness=1);h.pack(fill="x",padx=20,pady=(16,12));logo=tk.Canvas(h,width=48,height=42,bg="#080808",highlightthickness=0);logo.pack(side="left",padx=(14,10),pady=8);logo.create_polygon(3,5,22,2,22,19,3,21,fill="#FFFFFF",outline="");logo.create_polygon(26,2,45,0,45,18,26,19,fill="#FFFFFF",outline="");logo.create_polygon(3,25,22,23,22,40,3,37,fill="#FFFFFF",outline="");logo.create_polygon(26,23,45,21,45,40,26,40,fill="#FFFFFF",outline="");brand=tk.Frame(h,bg="#080808");brand.pack(side="left",pady=7);tk.Label(brand,text="OPTIMIZE WIN 10",bg="#080808",fg=FG,font=("Segoe UI",18,"bold")).pack(anchor="w");tk.Label(brand,text="SYSTEM PERFORMANCE CENTER",bg="#080808",fg="#888888",font=("Segoe UI",8,"bold")).pack(anchor="w")
   s.lb=s.btn(h,"العربية",s.toggle);s.lb.pack(side="right");s.md=tk.Label(h,text=s.t["manual"],bg=BG,fg=M);s.md.pack(side="right",padx=16)
   s.nav=tk.Frame(r,bg=BG);s.nav.pack(fill="x",padx=20);s.body=tk.Frame(r,bg=BG);s.body.pack(fill="both",expand=True,padx=20,pady=14)
   s.status=tk.StringVar(value="Ready");tk.Label(r,textvariable=s.status,bg="#080808",fg=M,anchor="w",padx=20,pady=8).pack(fill="x",side="bottom")
@@ -139,16 +139,25 @@ class App:
   s.dashboard()
 def launch():
  if os.name!="nt":raise SystemExit("Windows only")
- root=tk.Tk();root.title("OPTIMIZE WIN 10");root.geometry("620x360");root.configure(bg="#000000");root.resizable(False,False)
- tk.Label(root,text="OPTIMIZE WIN 10",bg="#000000",fg="#eeeeee",font=("Segoe UI",24,"bold")).pack(pady=(55,12))
- msg=tk.Label(root,text="LOADING...",bg="#000000",fg="#888888",font=("Segoe UI",10));msg.pack()
- bar=ttk.Progressbar(root,mode="indeterminate",length=260);bar.pack(pady=22);bar.start(12)
+ root=tk.Tk();root.title("OPTIMIZE WIN 10");root.geometry("760x480");root.configure(bg="#050505");root.resizable(False,False)
+ shell=tk.Frame(root,bg="#0c0c0c",highlightbackground="#292929",highlightthickness=1);shell.place(relx=.5,rely=.5,anchor="center",width=660,height=390)
+ logo=tk.Canvas(shell,width=100,height=88,bg="#0c0c0c",highlightthickness=0);logo.pack(pady=(34,8))
+ logo.create_polygon(8,10,46,5,46,39,8,42,fill="#FFFFFF",outline="")
+ logo.create_polygon(54,4,92,0,92,37,54,39,fill="#FFFFFF",outline="")
+ logo.create_polygon(8,50,46,47,46,82,8,77,fill="#FFFFFF",outline="")
+ logo.create_polygon(54,47,92,43,92,82,54,82,fill="#FFFFFF",outline="")
+ tk.Label(shell,text="OPTIMIZE WIN 10",bg="#0c0c0c",fg="#FFFFFF",font=("Segoe UI",25,"bold")).pack(pady=(2,2))
+ tk.Label(shell,text="SYSTEM PERFORMANCE CENTER",bg="#0c0c0c",fg="#858585",font=("Segoe UI",9,"bold")).pack()
+ msg=tk.Label(shell,text="INITIALIZING SYSTEM TOOLS...",bg="#0c0c0c",fg="#B8B8B8",font=("Segoe UI",9));msg.pack(pady=(22,8))
+ style=ttk.Style(root);style.theme_use("clam");style.configure("Load.Horizontal.TProgressbar",troughcolor="#242424",background="#F2F2F2",bordercolor="#242424",lightcolor="#F2F2F2",darkcolor="#F2F2F2")
+ bar=ttk.Progressbar(shell,mode="indeterminate",length=360,style="Load.Horizontal.TProgressbar");bar.pack(pady=5);bar.start(10)
  def choose():
-  bar.stop();msg.config(text="CHOOSE LANGUAGE / اختر اللغة")
-  row=tk.Frame(root,bg="#000000");row.pack(pady=20)
+  bar.stop();msg.config(text="SELECT YOUR LANGUAGE  /  اختر اللغة")
+  row=tk.Frame(shell,bg="#0c0c0c");row.pack(pady=22)
   def go(lang):
    root.destroy();win=tk.Tk();App(win,lang);win.mainloop()
-  tk.Button(row,text="العربية",command=lambda:go("ar"),bg="#191919",fg="white",relief="flat",padx=25,pady=12).pack(side="left",padx=10)
-  tk.Button(row,text="English",command=lambda:go("en"),bg="#191919",fg="white",relief="flat",padx=25,pady=12).pack(side="left",padx=10)
- root.after(1100,choose);root.mainloop()
+  for label,lang in [("العربية","ar"),("ENGLISH","en")]:
+   tk.Button(row,text=label,command=lambda x=lang:go(x),bg="#202020",fg="#FFFFFF",activebackground="#353535",activeforeground="#FFFFFF",relief="flat",bd=0,padx=30,pady=13,font=("Segoe UI",10,"bold"),cursor="hand2").pack(side="left",padx=8)
+ tk.Label(shell,text="MANUAL CONTROL  •  SAFE SYSTEM TWEAKS",bg="#0c0c0c",fg="#666666",font=("Segoe UI",8)).pack(side="bottom",pady=16)
+ root.after(1500,choose);root.mainloop()
 if __name__=="__main__":launch()
