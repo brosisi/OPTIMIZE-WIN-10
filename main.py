@@ -10,7 +10,7 @@ def set_window_icon(root):
  try:root.iconbitmap(resource_path(os.path.join("assets","feather-logo.ico")))
  except Exception:pass
 BG="#000000"; P="#111111"; FG="#eeeeee"; M="#999999"
-TXT={"en":{"dash":"DASHBOARD","apps":"APP BOOSTER","clean":"DISK CLEANER","settings":"SETTINGS","cpu":"CPU","ram":"RAM","disk":"DISK","refresh":"REFRESH","choose":"Choose a running process","boost":"SET ABOVE NORMAL","optimize":"OPTIMIZE NOW","uninstall":"UNINSTALL APPS","cleanbtn":"CLEAN TEMP FILES","restore":"CREATE RESTORE POINT","startup":"ENABLE STARTUP SCAN","manual":"MANUAL MODE — changes need your action","warning":"Conservative tools. No Windows services disabled; Realtime priority is excluded.","drivers":"OFFLINE DRIVERS","drvsub":"Scan the bundled Drivers folder and install matching INF packages offline.","drvchoose":"SELECT DRIVER FOLDER","drvinstall":"INSTALL SELECTED DRIVER","drvauto":"SCAN & INSTALL MATCHING DRIVERS","drvempty":"No INF driver files found in this folder.","drvselect":"Select an INF driver first.","drvconfirm":"Install this driver using Windows PnPUtil? Only install drivers intended for your Acer Aspire 5336.","drvok":"Windows accepted the driver installation command. Restart may be required.","drvfail":"Driver installation failed. Run as Administrator and verify driver compatibility.","drvfolder":"Driver folder: {}","drvbackup":"BACK UP INSTALLED DRIVERS","lang":"العربية","ask":"Delete temporary files? Files in use are skipped.","done":"Deleted {} files; skipped {}.","askrp":"Request a Windows restore point? Admin rights/System Protection may be required.","rpok":"Restore point command completed.","rpfail":"Restore point failed. Run as Administrator and check System Protection.","noapp":"Select a process first.","boostok":"Priority set to Above Normal.","boostfail":"Could not change priority."},"ar":{"dash":"لوحة التحكم","apps":"معزز التطبيقات","clean":"تنظيف الملفات","settings":"الإعدادات","cpu":"المعالج","ram":"الذاكرة","disk":"القرص","refresh":"تحديث","choose":"اختر عملية قيد التشغيل","boost":"تعيين أولوية أعلى من العادية","optimize":"تحسين الآن","uninstall":"إزالة التطبيقات","cleanbtn":"تنظيف الملفات المؤقتة","restore":"إنشاء نقطة استعادة","startup":"تفعيل فحص بدء التشغيل","manual":"الوضع اليدوي — التغييرات بموافقتك","warning":"أدوات محافظة. لا نعطّل خدمات ويندوز ولا نستخدم أولوية الوقت الحقيقي.","drivers":"التعريفات بدون إنترنت","drvsub":"فحص مجلد Drivers المرفق وتثبيت ملفات INF المطابقة دون إنترنت.","drvchoose":"اختيار مجلد التعريفات","drvinstall":"تثبيت التعريف المحدد","drvauto":"فحص وتثبيت التعريفات المتطابقة","drvempty":"لم يتم العثور على ملفات تعريف INF في هذا المجلد.","drvselect":"اختر ملف تعريف INF أولاً.","drvconfirm":"هل تريد تثبيت هذا التعريف باستخدام أداة ويندوز؟ ثبّت فقط تعريفاً مخصصاً لجهاز Acer Aspire 5336.","drvok":"قبل ويندوز أمر تثبيت التعريف. قد تحتاج إلى إعادة التشغيل.","drvfail":"فشل تثبيت التعريف. شغّل البرنامج كمسؤول وتأكد من توافق التعريف.","drvfolder":"مجلد التعريفات: {}","drvbackup":"نسخ احتياطي للتعريفات المثبتة","lang":"English","ask":"حذف الملفات المؤقتة؟ سيتم تخطي الملفات المستخدمة.","done":"تم حذف {} ملف وتخطي {}.","askrp":"طلب إنشاء نقطة استعادة؟ قد تحتاج صلاحيات المسؤول وحماية النظام.","rpok":"اكتمل أمر نقطة الاستعادة.","rpfail":"فشل إنشاء نقطة الاستعادة. شغّل كمسؤول وتحقق من حماية النظام.","noapp":"اختر عملية أولاً.","boostok":"تم تعيين الأولوية أعلى من العادية.","boostfail":"تعذر تغيير الأولوية."}}
+TXT={"en":{"dash":"DASHBOARD","apps":"APP BOOSTER","clean":"DISK CLEANER","settings":"SETTINGS","music":"MUSIC PLAYER","cpu":"CPU","ram":"RAM","disk":"DISK","refresh":"REFRESH","choose":"Choose a running process","boost":"SET ABOVE NORMAL","optimize":"OPTIMIZE NOW","uninstall":"UNINSTALL APPS","cleanbtn":"CLEAN TEMP FILES","restore":"CREATE RESTORE POINT","startup":"ENABLE STARTUP SCAN","manual":"MANUAL MODE — changes need your action","warning":"Conservative tools. No Windows services disabled; Realtime priority is excluded.","drivers":"OFFLINE DRIVERS","drvsub":"Scan the bundled Drivers folder and install matching INF packages offline.","drvchoose":"SELECT DRIVER FOLDER","drvinstall":"INSTALL SELECTED DRIVER","drvauto":"SCAN & INSTALL MATCHING DRIVERS","drvempty":"No INF driver files found in this folder.","drvselect":"Select an INF driver first.","drvconfirm":"Install this driver using Windows PnPUtil? Only install drivers intended for your Acer Aspire 5336.","drvok":"Windows accepted the driver installation command. Restart may be required.","drvfail":"Driver installation failed. Run as Administrator and verify driver compatibility.","drvfolder":"Driver folder: {}","drvbackup":"BACK UP INSTALLED DRIVERS","lang":"العربية","ask":"Delete temporary files? Files in use are skipped.","done":"Deleted {} files; skipped {}.","askrp":"Request a Windows restore point? Admin rights/System Protection may be required.","rpok":"Restore point command completed.","rpfail":"Restore point failed. Run as Administrator and check System Protection.","noapp":"Select a process first.","boostok":"Priority set to Above Normal.","boostfail":"Could not change priority."},"ar":{"dash":"لوحة التحكم","apps":"معزز التطبيقات","clean":"تنظيف الملفات","settings":"الإعدادات","music":"مشغل الموسيقى","cpu":"المعالج","ram":"الذاكرة","disk":"القرص","refresh":"تحديث","choose":"اختر عملية قيد التشغيل","boost":"تعيين أولوية أعلى من العادية","optimize":"تحسين الآن","uninstall":"إزالة التطبيقات","cleanbtn":"تنظيف الملفات المؤقتة","restore":"إنشاء نقطة استعادة","startup":"تفعيل فحص بدء التشغيل","manual":"الوضع اليدوي — التغييرات بموافقتك","warning":"أدوات محافظة. لا نعطّل خدمات ويندوز ولا نستخدم أولوية الوقت الحقيقي.","drivers":"التعريفات بدون إنترنت","drvsub":"فحص مجلد Drivers المرفق وتثبيت ملفات INF المطابقة دون إنترنت.","drvchoose":"اختيار مجلد التعريفات","drvinstall":"تثبيت التعريف المحدد","drvauto":"فحص وتثبيت التعريفات المتطابقة","drvempty":"لم يتم العثور على ملفات تعريف INF في هذا المجلد.","drvselect":"اختر ملف تعريف INF أولاً.","drvconfirm":"هل تريد تثبيت هذا التعريف باستخدام أداة ويندوز؟ ثبّت فقط تعريفاً مخصصاً لجهاز Acer Aspire 5336.","drvok":"قبل ويندوز أمر تثبيت التعريف. قد تحتاج إلى إعادة التشغيل.","drvfail":"فشل تثبيت التعريف. شغّل البرنامج كمسؤول وتأكد من توافق التعريف.","drvfolder":"مجلد التعريفات: {}","drvbackup":"نسخ احتياطي للتعريفات المثبتة","lang":"English","ask":"حذف الملفات المؤقتة؟ سيتم تخطي الملفات المستخدمة.","done":"تم حذف {} ملف وتخطي {}.","askrp":"طلب إنشاء نقطة استعادة؟ قد تحتاج صلاحيات المسؤول وحماية النظام.","rpok":"اكتمل أمر نقطة الاستعادة.","rpfail":"فشل إنشاء نقطة الاستعادة. شغّل كمسؤول وتحقق من حماية النظام.","noapp":"اختر عملية أولاً.","boostok":"تم تعيين الأولوية أعلى من العادية.","boostfail":"تعذر تغيير الأولوية."}}
 class App:
  def __init__(s,r,lang="en"):
   s.r=r;s.l=lang;s.t=TXT[s.l];s.pid=None;r.title("OPTIMIZE WIN 10 v1.0");set_window_icon(r);r.geometry("950x650");r.configure(bg=BG);r.minsize(800,520)
@@ -19,7 +19,7 @@ class App:
   s.nav=tk.Frame(r,bg=BG);s.nav.pack(fill="x",padx=20);s.body=tk.Frame(r,bg=BG);s.body.pack(fill="both",expand=True,padx=20,pady=14)
   s.status=tk.StringVar(value="Ready");tk.Label(r,textvariable=s.status,bg="#080808",fg=M,anchor="w",padx=20,pady=8).pack(fill="x",side="bottom")
   s.nb=[]
-  for k,f in [("dash",s.dashboard),("apps",s.apps),("clean",s.cleaner),("drivers",s.drivers),("settings",s.settings)]:
+  for k,f in [("dash",s.dashboard),("apps",s.apps),("clean",s.cleaner),("drivers",s.drivers),("music",s.music),("settings",s.settings)]:
    b=s.btn(s.nav,s.t[k],f);b.pack(side="left",padx=(0,8));s.nb.append((k,b))
   s.dashboard();s.tick()
   if "--startup-scan" in sys.argv:r.after(900,s.scan)
@@ -186,6 +186,91 @@ class App:
   s.btn(row,s.t["drvauto"],install_all).pack(side="left",padx=(0,8))
   s.btn(row,s.t["drvbackup"],backup).pack(side="left")
   load()
+ def music(s):
+  from tkinter import filedialog
+  s.clear();s.head("music","10 Dan  •  Daklee / Joker Jr / Shiboba" if s.l=="en" else "10 Dan  •  داكلي / جوكر جونيور / شيبوبة")
+  panel=tk.Frame(s.body,bg=P,padx=22,pady=20);panel.pack(fill="x",pady=10)
+  tk.Label(panel,text="♫",bg=P,fg="#DDDDDD",font=("Segoe UI",42,"bold")).pack(pady=(0,4))
+  tk.Label(panel,text="10 DAN",bg=P,fg=FG,font=("Segoe UI",20,"bold")).pack()
+  tk.Label(panel,text="DAKLEE  •  JOKER JR  •  SHIBOBA",bg=P,fg=M,font=("Segoe UI",9,"bold")).pack(pady=(3,18))
+  s.music_file=None;s.music_duration=375;s.music_paused=True
+  s.music_status=tk.StringVar(value="Choose an audio file to start" if s.l=="en" else "اختر ملفًا صوتيًا للبدء")
+  tk.Label(panel,textvariable=s.music_status,bg=P,fg=M).pack(pady=(0,10))
+  def load():
+   path=filedialog.askopenfilename(title="Choose audio" if s.l=="en" else "اختر ملفًا صوتيًا",filetypes=[("Audio files","*.mp3 *.wav *.ogg"),("All files","*.*")])
+   if not path:return
+   try:
+    import pygame
+    if not pygame.mixer.get_init():pygame.mixer.init()
+    pygame.mixer.music.load(path);s.music_file=path
+    s.music_duration=max(1,int(pygame.mixer.Sound(path).get_length()))
+    s.music_seek.config(to=s.music_duration);s.music_seek.set(0);s.music_paused=True
+    s.music_status.set(os.path.basename(path));s.status.set("Audio loaded")
+   except Exception as e:
+    messagebox.showerror("OPTIMIZE","Could not load audio. Use MP3, WAV or OGG.\n"+str(e))
+  def play():
+   if not s.music_file:load()
+   if not s.music_file:return
+   try:
+    import pygame
+    if s.music_paused:
+     if pygame.mixer.music.get_busy():pygame.mixer.music.unpause()
+     else:pygame.mixer.music.play(start=max(0,s.music_seek.get()))
+     s.music_paused=False
+    else:pygame.mixer.music.pause();s.music_paused=True
+    play_btn.config(text=("PLAY" if s.music_paused else "PAUSE"))
+   except Exception as e:messagebox.showerror("OPTIMIZE",str(e))
+  def stop():
+   try:
+    import pygame
+    pygame.mixer.music.stop()
+   except Exception:pass
+   s.music_paused=True;s.music_seek.set(0);play_btn.config(text="PLAY")
+  def seek(v):
+   if not s.music_file:return
+   try:
+    import pygame
+    playing=pygame.mixer.music.get_busy() and not s.music_paused
+    pygame.mixer.music.play(start=max(0,float(v)))
+    if not playing:pygame.mixer.music.pause()
+    s.music_paused=not playing
+    play_btn.config(text=("PAUSE" if playing else "PLAY"))
+   except Exception:pass
+  def jump(delta):
+   if s.music_file:
+    target=max(0,min(s.music_duration,s.music_seek.get()+delta));s.music_seek.set(target);seek(target)
+  controls=tk.Frame(panel,bg=P);controls.pack(fill="x",pady=5)
+  s.music_seek=tk.Scale(controls,from_=0,to=375,orient="horizontal",showvalue=False,bg=P,fg=FG,troughcolor="#444444",highlightthickness=0,activebackground="#DDDDDD",command=seek)
+  s.music_seek.pack(fill="x")
+  times=tk.Frame(controls,bg=P);times.pack(fill="x")
+  s.music_time=tk.Label(times,text="00:00",bg=P,fg=M);s.music_time.pack(side="left")
+  s.music_total=tk.Label(times,text="06:15",bg=P,fg=M);s.music_total.pack(side="right")
+  buttons=tk.Frame(panel,bg=P);buttons.pack(pady=12)
+  s.btn(buttons,"−10 SEC",lambda:jump(-10)).pack(side="left",padx=5)
+  play_btn=s.btn(buttons,"PLAY",play);play_btn.pack(side="left",padx=5)
+  s.btn(buttons,"STOP",stop).pack(side="left",padx=5)
+  s.btn(buttons,"+10 SEC",lambda:jump(10)).pack(side="left",padx=5)
+  s.btn(panel,"CHOOSE AUDIO FILE" if s.l=="en" else "اختيار ملف صوتي",load).pack(pady=(8,0))
+  volrow=tk.Frame(s.body,bg=BG);volrow.pack(fill="x",pady=8)
+  tk.Label(volrow,text="VOLUME / مستوى الصوت",bg=BG,fg=M).pack(anchor="w")
+  def volume(v):
+   try:
+    import pygame
+    if pygame.mixer.get_init():pygame.mixer.music.set_volume(float(v)/100)
+   except Exception:pass
+  tk.Scale(volrow,from_=0,to=100,orient="horizontal",showvalue=True,bg=BG,fg=FG,troughcolor="#444444",highlightthickness=0,command=volume).pack(fill="x")
+  def update_time():
+   if not s.body.winfo_exists():return
+   try:
+    import pygame
+    if s.music_file and pygame.mixer.music.get_busy() and not s.music_paused:
+     pos=max(0,pygame.mixer.music.get_pos()/1000)
+     s.music_seek.set(min(s.music_duration,pos))
+     s.music_time.config(text=f"{int(pos)//60:02d}:{int(pos)%60:02d}")
+    s.music_total.config(text=f"{s.music_duration//60:02d}:{s.music_duration%60:02d}")
+   except Exception:pass
+   s.r.after(400,update_time)
+  s.r.after(400,update_time)
  def settings(s):
   s.clear();s.head("settings",s.t["manual"])
   s.btn(s.body,s.t["restore"],s.restore).pack(anchor="w",pady=8)
