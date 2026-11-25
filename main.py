@@ -14,7 +14,7 @@ TXT={"en":{"dash":"DASHBOARD","apps":"APP BOOSTER","clean":"DISK CLEANER","setti
 class App:
  def __init__(s,r,lang="en"):
   s.r=r;s.l=lang;s.t=TXT[s.l];s.pid=None;r.title("OPTIMIZE WIN 10 v1.0");set_window_icon(r);r.geometry("950x650");r.configure(bg=BG);r.minsize(800,520)
-  h=tk.Frame(r,bg="#0b0b0b",highlightbackground="#303030",highlightthickness=1);h.pack(fill="x",padx=20,pady=(16,12));logo=tk.Canvas(h,width=48,height=42,bg="#0b0b0b",highlightthickness=0);logo.pack(side="left",padx=(14,10),pady=8);logo.create_polygon(7,4,19,7,37,1,31,20,17,37,8,28,fill="#C9CDD2",outline="#F4F4F4",width=1);logo.create_line(8,28,37,1,fill="#FFFFFF",width=2);brand=tk.Frame(h,bg="#0b0b0b");brand.pack(side="left",pady=7);tk.Label(brand,text="OPTIMIZE WIN 10  •  v1.0",bg="#080808",fg=FG,font=("Segoe UI",18,"bold")).pack(anchor="w");tk.Label(brand,text="SYSTEM PERFORMANCE CENTER",bg="#080808",fg="#888888",font=("Segoe UI",8,"bold")).pack(anchor="w")
+  h=tk.Frame(r,bg="#0b0b0b",highlightbackground="#303030",highlightthickness=1);h.pack(fill="x",padx=20,pady=(16,12));logo=tk.Canvas(h,width=48,height=42,bg="#0b0b0b",highlightthickness=0);logo.pack(side="left",padx=(14,10),pady=8);logo.create_polygon(3,6,22,4,22,20,3,22,fill="#FFFFFF",outline="");logo.create_polygon(25,3,45,1,45,19,25,20,fill="#FFFFFF",outline="");logo.create_polygon(3,25,22,23,22,39,3,36,fill="#FFFFFF",outline="");logo.create_polygon(25,23,45,22,45,40,25,39,fill="#FFFFFF",outline="");brand=tk.Frame(h,bg="#0b0b0b");brand.pack(side="left",pady=7);tk.Label(brand,text="OPTIMIZE WIN 10  •  v1.0",bg="#080808",fg=FG,font=("Segoe UI",18,"bold")).pack(anchor="w");tk.Label(brand,text="SYSTEM PERFORMANCE CENTER",bg="#080808",fg="#888888",font=("Segoe UI",8,"bold")).pack(anchor="w")
   s.lb=s.btn(h,"العربية",s.toggle);s.lb.pack(side="right");s.md=tk.Label(h,text=s.t["manual"],bg=BG,fg=M);s.md.pack(side="right",padx=16)
   s.nav=tk.Frame(r,bg=BG);s.nav.pack(fill="x",padx=20);s.body=tk.Frame(r,bg=BG);s.body.pack(fill="both",expand=True,padx=20,pady=14)
   s.status=tk.StringVar(value="Ready");tk.Label(r,textvariable=s.status,bg="#080808",fg=M,anchor="w",padx=20,pady=8).pack(fill="x",side="bottom")
@@ -78,21 +78,100 @@ class App:
   s.clear();s.head("apps",s.t["warning"]);tk.Label(s.body,text=s.t["choose"],bg=BG,fg=FG).pack(anchor="w");s.tree(11);row=tk.Frame(s.body,bg=BG);row.pack(fill="x",pady=10);s.btn(row,s.t["boost"],s.boost).pack(side="left",padx=(0,8));s.btn(row,s.t["uninstall"],s.uninstall_apps).pack(side="left")
  def optimize_now(s):
   s.clear()
-  s.head("dash", "Choose optimization actions before applying them." if s.l=="en" else "اختر عمليات التحسين قبل تنفيذها.")
-  panel=tk.Frame(s.body,bg=P,padx=18,pady=16);panel.pack(fill="x",pady=10)
-  tk.Label(panel,text="OPTIMIZATION OPTIONS" if s.l=="en" else "خيارات التحسين",bg=P,fg=FG,font=("Segoe UI",12,"bold")).pack(anchor="w",pady=(0,10))
-  clean_var=tk.BooleanVar(value=True)
-  tk.Checkbutton(panel,text="Clean temporary files" if s.l=="en" else "تنظيف الملفات المؤقتة",variable=clean_var,bg=P,fg=FG,selectcolor="#222222",activebackground=P,activeforeground=FG).pack(anchor="w",pady=5)
-  tk.Label(panel,text="Only selected safe actions will run. Restart is recommended after optimization." if s.l=="en" else "سيتم تنفيذ الخيارات المحددة فقط. يُنصح بإعادة تشغيل الجهاز بعد التحسين.",bg=P,fg=M,wraplength=760,justify="left").pack(anchor="w",pady=(8,12))
-  row=tk.Frame(s.body,bg=BG);row.pack(anchor="w",pady=8)
-  def confirm():
-   if not clean_var.get():
-    messagebox.showwarning("OPTIMIZE","Select at least one action." if s.l=="en" else "حدد عملية واحدة على الأقل.")
-    return
-   if not messagebox.askyesno("OPTIMIZE","Confirm selected optimization? Temporary files will be deleted." if s.l=="en" else "هل تؤكد تنفيذ التحسين المحدد؟ سيتم حذف الملفات المؤقتة."):return
-   s.clean(confirmed=True,show_restart=True)
-  s.btn(row,"CONFIRM OPTIMIZATION" if s.l=="en" else "تأكيد التحسين",confirm).pack(side="left",padx=(0,8))
-  s.btn(row,"CANCEL" if s.l=="en" else "إلغاء",s.dashboard).pack(side="left")
+  s.head("dash", "Choose a category. Every tool runs separately and asks before changing Windows." if s.l=="en" else "اختر قسماً. كل أداة مستقلة وتطلب موافقتك قبل تغيير ويندوز.")
+  cards=[
+   ("STORAGE / التخزين","Clean temp files, Recycle Bin and open Disk Cleanup",s.storage_tools),
+   ("STARTUP / بدء التشغيل","Review apps that launch with Windows",s.startup_tools),
+   ("MEMORY / الذاكرة","Monitor RAM and inspect high-memory processes",s.memory_tools),
+   ("NETWORK / الشبكة","Flush DNS, inspect adapters and reset network stack",s.network_tools),
+   ("PERFORMANCE / الأداء","Power mode, drive optimization and Game Mode",s.performance_tools),
+   ("REPAIR / إصلاح النظام","Run Windows image and system-file checks",s.repair_tools),
+   ("APPS / التطبيقات","Open installed-app management",s.uninstall_apps),
+   ("RESTORE / الاستعادة","Create a restore point before system changes",s.restore),
+  ]
+  grid=tk.Frame(s.body,bg=BG);grid.pack(fill="both",expand=True)
+  for i,(name,desc,action) in enumerate(cards):
+   card=tk.Frame(grid,bg=P,padx=14,pady=12);card.grid(row=i//2,column=i%2,sticky="nsew",padx=6,pady=6)
+   tk.Label(card,text=name,bg=P,fg=FG,font=("Segoe UI",11,"bold")).pack(anchor="w")
+   tk.Label(card,text=desc,bg=P,fg=M,wraplength=340,justify="left").pack(anchor="w",pady=(5,10))
+   s.btn(card,"OPEN / فتح",action).pack(anchor="w")
+  grid.grid_columnconfigure(0,weight=1);grid.grid_columnconfigure(1,weight=1)
+  grid.grid_rowconfigure(0,weight=1);grid.grid_rowconfigure(1,weight=1);grid.grid_rowconfigure(2,weight=1);grid.grid_rowconfigure(3,weight=1)
+ def storage_tools(s):
+  s.clear();s.head("clean","Select one storage task at a time." if s.l=="en" else "اختر مهمة تخزين واحدة في كل مرة.")
+  s.btn(s.body,"CLEAN TEMP FILES / تنظيف الملفات المؤقتة",s.cleaner).pack(anchor="w",pady=6)
+  def recycle():
+   if not messagebox.askyesno("OPTIMIZE","Empty the Recycle Bin? This removes its contents."):return
+   try:
+    subprocess.run(["powershell.exe","-NoProfile","-Command","Clear-RecycleBin -Force -ErrorAction Stop"],check=True,timeout=120)
+    messagebox.showinfo("OPTIMIZE","Recycle Bin emptied.")
+   except Exception as e:messagebox.showerror("OPTIMIZE","Could not empty Recycle Bin. "+str(e))
+  s.btn(s.body,"EMPTY RECYCLE BIN / إفراغ سلة المحذوفات",recycle).pack(anchor="w",pady=6)
+  s.btn(s.body,"OPEN DISK CLEANUP / فتح تنظيف القرص",lambda:subprocess.Popen(["cleanmgr.exe"])).pack(anchor="w",pady=6)
+  s.btn(s.body,"BACK / رجوع",s.optimize_now).pack(anchor="w",pady=12)
+ def startup_tools(s):
+  s.clear();s.head("apps","Review startup entries before disabling anything." if s.l=="en" else "راجع برامج بدء التشغيل قبل تعطيل أي عنصر.")
+  tk.Label(s.body,text="Use Task Manager > Startup. Disable only apps you recognize and do not disable security, touchpad, audio or driver components.",bg=BG,fg=M,wraplength=760,justify="left").pack(anchor="w",pady=10)
+  s.btn(s.body,"OPEN STARTUP MANAGER / فتح إدارة بدء التشغيل",lambda:subprocess.Popen(["taskmgr.exe"])).pack(anchor="w",pady=8)
+  s.btn(s.body,"OPEN STARTUP FOLDER / فتح مجلد بدء التشغيل",lambda:os.startfile(os.path.expandvars(r"%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"))).pack(anchor="w",pady=8)
+  s.btn(s.body,"BACK / رجوع",s.optimize_now).pack(anchor="w",pady=12)
+ def memory_tools(s):
+  s.clear();s.head("ram","Windows manages memory automatically. This page helps identify apps using the most RAM." if s.l=="en" else "ويندوز يدير الذاكرة تلقائياً. هذه الصفحة تعرض التطبيقات الأكثر استهلاكاً للرام.")
+  mem=psutil.virtual_memory()
+  tk.Label(s.body,text=f"RAM USED: {mem.percent}%   |   AVAILABLE: {mem.available/1048576:.0f} MB   |   TOTAL: {mem.total/1048576:.0f} MB",bg=P,fg=FG,font=("Segoe UI",13,"bold"),padx=14,pady=14).pack(fill="x",pady=8)
+  s.btn(s.body,"REFRESH MEMORY / تحديث الذاكرة",s.memory_tools).pack(anchor="w",pady=6)
+  s.btn(s.body,"OPEN TASK MANAGER / فتح إدارة المهام",lambda:subprocess.Popen(["taskmgr.exe"])).pack(anchor="w",pady=6)
+  s.btn(s.body,"APP BOOSTER / معزز التطبيقات",s.apps).pack(anchor="w",pady=6)
+  s.btn(s.body,"BACK / رجوع",s.optimize_now).pack(anchor="w",pady=12)
+ def network_tools(s):
+  s.clear();s.head("settings","Network commands may interrupt your connection." if s.l=="en" else "أوامر الشبكة قد تقطع الاتصال مؤقتاً.")
+  def flush():
+   if not messagebox.askyesno("OPTIMIZE","Flush the DNS resolver cache?"):return
+   try:
+    p=subprocess.run(["ipconfig.exe","/flushdns"],capture_output=True,text=True,timeout=30)
+    messagebox.showinfo("OPTIMIZE",p.stdout or p.stderr or "Command completed.")
+   except Exception as e:messagebox.showerror("OPTIMIZE",str(e))
+  def reset():
+   if not messagebox.askyesno("OPTIMIZE","Reset Winsock and TCP/IP settings? This may require Administrator rights and a restart."):return
+   try:
+    p=subprocess.run(["netsh.exe","winsock","reset"],capture_output=True,text=True,timeout=60)
+    q=subprocess.run(["netsh.exe","int","ip","reset"],capture_output=True,text=True,timeout=60)
+    messagebox.showinfo("OPTIMIZE",(p.stdout or p.stderr)+"\\n"+(q.stdout or q.stderr)+"\\nRestart Windows if requested.")
+   except Exception as e:messagebox.showerror("OPTIMIZE",str(e))
+  s.btn(s.body,"FLUSH DNS CACHE / مسح ذاكرة DNS",flush).pack(anchor="w",pady=6)
+  s.btn(s.body,"OPEN NETWORK CONNECTIONS / إعدادات الشبكة",lambda:subprocess.Popen(["ncpa.cpl"])).pack(anchor="w",pady=6)
+  s.btn(s.body,"RESET NETWORK STACK / إعادة ضبط الشبكة",reset).pack(anchor="w",pady=6)
+  s.btn(s.body,"BACK / رجوع",s.optimize_now).pack(anchor="w",pady=12)
+ def performance_tools(s):
+  s.clear();s.head("dash","Choose one performance setting at a time." if s.l=="en" else "اختر إعداد أداء واحداً في كل مرة.")
+  def power(guid,label):
+   if not messagebox.askyesno("OPTIMIZE","Switch Windows power plan to "+label+"?"):return
+   try:
+    p=subprocess.run(["powercfg.exe","/setactive",guid],capture_output=True,text=True,timeout=30)
+    if p.returncode:raise RuntimeError(p.stderr or p.stdout)
+    messagebox.showinfo("OPTIMIZE","Power plan changed to "+label+".")
+   except Exception as e:messagebox.showerror("OPTIMIZE",str(e))
+  def drive():
+   if not messagebox.askyesno("OPTIMIZE","Run Windows Optimize Drives on the system drive? Windows chooses the appropriate operation for SSD or HDD."):return
+   try:subprocess.Popen(["defrag.exe",os.environ.get("SystemDrive","C:")+"\\","/O","/U","/V"])
+   except Exception as e:messagebox.showerror("OPTIMIZE",str(e))
+  s.btn(s.body,"BALANCED POWER PLAN / متوازن",lambda:power("381b4222-f694-41f0-9685-ff5bb260df2e","Balanced")).pack(anchor="w",pady=6)
+  s.btn(s.body,"HIGH PERFORMANCE / أداء عالٍ",lambda:power("8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c","High performance")).pack(anchor="w",pady=6)
+  s.btn(s.body,"OPTIMIZE DRIVES / تحسين الأقراص",drive).pack(anchor="w",pady=6)
+  s.btn(s.body,"OPEN GAME MODE / فتح وضع الألعاب",lambda:os.startfile("ms-settings:gaming-gamemode")).pack(anchor="w",pady=6)
+  s.btn(s.body,"BACK / رجوع",s.optimize_now).pack(anchor="w",pady=12)
+ def repair_tools(s):
+  s.clear();s.head("settings","System scans can take time. Run them individually as Administrator." if s.l=="en" else "فحوصات النظام قد تستغرق وقتاً. شغّل كل فحص منفرداً كمسؤول.")
+  def run_scan(args,label):
+   if not messagebox.askyesno("OPTIMIZE","Run "+label+"? This may take several minutes."):return
+   try:
+    subprocess.Popen(["cmd.exe","/k"]+args)
+   except Exception as e:messagebox.showerror("OPTIMIZE",str(e))
+  s.btn(s.body,"SFC /SCANNOW — CHECK SYSTEM FILES",lambda:run_scan(["sfc","/scannow"],"SFC scan")).pack(anchor="w",pady=6)
+  s.btn(s.body,"DISM CHECKHEALTH",lambda:run_scan(["DISM","/Online","/Cleanup-Image","/CheckHealth"],"DISM CheckHealth")).pack(anchor="w",pady=6)
+  s.btn(s.body,"DISM SCANHEALTH",lambda:run_scan(["DISM","/Online","/Cleanup-Image","/ScanHealth"],"DISM ScanHealth")).pack(anchor="w",pady=6)
+  s.btn(s.body,"DISM RESTOREHEALTH",lambda:run_scan(["DISM","/Online","/Cleanup-Image","/RestoreHealth"],"DISM RestoreHealth")).pack(anchor="w",pady=6)
+  s.btn(s.body,"BACK / رجوع",s.optimize_now).pack(anchor="w",pady=12)
  def uninstall_apps(s):
   if not messagebox.askyesno("OPTIMIZE", "Open Windows Apps and Features to uninstall programs?"):
    return
