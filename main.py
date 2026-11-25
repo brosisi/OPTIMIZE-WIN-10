@@ -203,7 +203,10 @@ class App:
     import pygame
     if not pygame.mixer.get_init():pygame.mixer.init()
     pygame.mixer.music.load(path);s.music_file=path
-    s.music_duration=max(1,int(pygame.mixer.Sound(path).get_length()))
+    from mutagen import File as AudioFile
+    audio=AudioFile(path)
+    if audio is None or not getattr(audio,"info",None):raise ValueError("Unsupported audio format")
+    s.music_duration=max(1,int(audio.info.length))
     s.music_seek.config(to=s.music_duration);s.music_seek.set(0);s.music_paused=True
     s.music_status.set(os.path.basename(path));s.status.set("Audio loaded")
    except Exception as e:
