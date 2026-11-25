@@ -10,7 +10,7 @@ def set_window_icon(root):
  try:root.iconbitmap(resource_path(os.path.join("assets","feather-logo.ico")))
  except Exception:pass
 BG="#000000"; P="#111111"; FG="#eeeeee"; M="#999999"
-TXT={"en":{"dash":"DASHBOARD","apps":"APP BOOSTER","clean":"DISK CLEANER","settings":"SETTINGS","music":"MUSIC PLAYER","cpu":"CPU","ram":"RAM","disk":"DISK","refresh":"REFRESH","choose":"Choose a running process","boost":"SET ABOVE NORMAL","optimize":"OPTIMIZE NOW","uninstall":"UNINSTALL APPS","cleanbtn":"CLEAN TEMP FILES","restore":"CREATE RESTORE POINT","startup":"ENABLE STARTUP SCAN","manual":"MANUAL MODE — changes need your action","warning":"Conservative tools. No Windows services disabled; Realtime priority is excluded.","drivers":"OFFLINE DRIVERS","drvsub":"Scan the bundled Drivers folder and install matching INF packages offline.","drvchoose":"SELECT DRIVER FOLDER","drvinstall":"INSTALL SELECTED DRIVER","drvauto":"SCAN & INSTALL MATCHING DRIVERS","drvempty":"No INF driver files found in this folder.","drvselect":"Select an INF driver first.","drvconfirm":"Install this driver using Windows PnPUtil? Only install drivers intended for your Acer Aspire 5336.","drvok":"Windows accepted the driver installation command. Restart may be required.","drvfail":"Driver installation failed. Run as Administrator and verify driver compatibility.","drvfolder":"Driver folder: {}","drvbackup":"BACK UP INSTALLED DRIVERS","lang":"العربية","ask":"Delete temporary files? Files in use are skipped.","done":"Deleted {} files; skipped {}.","askrp":"Request a Windows restore point? Admin rights/System Protection may be required.","rpok":"Restore point command completed.","rpfail":"Restore point failed. Run as Administrator and check System Protection.","noapp":"Select a process first.","boostok":"Priority set to Above Normal.","boostfail":"Could not change priority."},"ar":{"dash":"لوحة التحكم","apps":"معزز التطبيقات","clean":"تنظيف الملفات","settings":"الإعدادات","music":"مشغل الموسيقى","cpu":"المعالج","ram":"الذاكرة","disk":"القرص","refresh":"تحديث","choose":"اختر عملية قيد التشغيل","boost":"تعيين أولوية أعلى من العادية","optimize":"تحسين الآن","uninstall":"إزالة التطبيقات","cleanbtn":"تنظيف الملفات المؤقتة","restore":"إنشاء نقطة استعادة","startup":"تفعيل فحص بدء التشغيل","manual":"الوضع اليدوي — التغييرات بموافقتك","warning":"أدوات محافظة. لا نعطّل خدمات ويندوز ولا نستخدم أولوية الوقت الحقيقي.","drivers":"التعريفات بدون إنترنت","drvsub":"فحص مجلد Drivers المرفق وتثبيت ملفات INF المطابقة دون إنترنت.","drvchoose":"اختيار مجلد التعريفات","drvinstall":"تثبيت التعريف المحدد","drvauto":"فحص وتثبيت التعريفات المتطابقة","drvempty":"لم يتم العثور على ملفات تعريف INF في هذا المجلد.","drvselect":"اختر ملف تعريف INF أولاً.","drvconfirm":"هل تريد تثبيت هذا التعريف باستخدام أداة ويندوز؟ ثبّت فقط تعريفاً مخصصاً لجهاز Acer Aspire 5336.","drvok":"قبل ويندوز أمر تثبيت التعريف. قد تحتاج إلى إعادة التشغيل.","drvfail":"فشل تثبيت التعريف. شغّل البرنامج كمسؤول وتأكد من توافق التعريف.","drvfolder":"مجلد التعريفات: {}","drvbackup":"نسخ احتياطي للتعريفات المثبتة","lang":"English","ask":"حذف الملفات المؤقتة؟ سيتم تخطي الملفات المستخدمة.","done":"تم حذف {} ملف وتخطي {}.","askrp":"طلب إنشاء نقطة استعادة؟ قد تحتاج صلاحيات المسؤول وحماية النظام.","rpok":"اكتمل أمر نقطة الاستعادة.","rpfail":"فشل إنشاء نقطة الاستعادة. شغّل كمسؤول وتحقق من حماية النظام.","noapp":"اختر عملية أولاً.","boostok":"تم تعيين الأولوية أعلى من العادية.","boostfail":"تعذر تغيير الأولوية."}}
+TXT={"en":{"dash":"DASHBOARD","apps":"APP BOOSTER","clean":"DISK CLEANER","settings":"SETTINGS","music":"MUSIC PLAYER","cpu":"CPU","ram":"RAM","disk":"DISK","refresh":"REFRESH","choose":"Choose a running process","boost":"SET ABOVE NORMAL","optimize":"SMART OPTIMIZE","uninstall":"UNINSTALL APPS","cleanbtn":"CLEAN TEMP FILES","restore":"CREATE RESTORE POINT","startup":"ENABLE STARTUP SCAN","manual":"MANUAL MODE — changes need your action","warning":"Conservative tools. No Windows services disabled; Realtime priority is excluded.","drivers":"OFFLINE DRIVERS","drvsub":"Scan the bundled Drivers folder and install matching INF packages offline.","drvchoose":"SELECT DRIVER FOLDER","drvinstall":"INSTALL SELECTED DRIVER","drvauto":"SCAN & INSTALL MATCHING DRIVERS","drvempty":"No INF driver files found in this folder.","drvselect":"Select an INF driver first.","drvconfirm":"Install this driver using Windows PnPUtil? Only install drivers intended for your Acer Aspire 5336.","drvok":"Windows accepted the driver installation command. Restart may be required.","drvfail":"Driver installation failed. Run as Administrator and verify driver compatibility.","drvfolder":"Driver folder: {}","drvbackup":"BACK UP INSTALLED DRIVERS","lang":"العربية","ask":"Delete temporary files? Files in use are skipped.","done":"Deleted {} files; skipped {}.","askrp":"Request a Windows restore point? Admin rights/System Protection may be required.","rpok":"Restore point command completed.","rpfail":"Restore point failed. Run as Administrator and check System Protection.","noapp":"Select a process first.","boostok":"Priority set to Above Normal.","boostfail":"Could not change priority."},"ar":{"dash":"لوحة التحكم","apps":"معزز التطبيقات","clean":"تنظيف الملفات","settings":"الإعدادات","music":"مشغل الموسيقى","cpu":"المعالج","ram":"الذاكرة","disk":"القرص","refresh":"تحديث","choose":"اختر عملية قيد التشغيل","boost":"تعيين أولوية أعلى من العادية","optimize":"التحسين الذكي","uninstall":"إزالة التطبيقات","cleanbtn":"تنظيف الملفات المؤقتة","restore":"إنشاء نقطة استعادة","startup":"تفعيل فحص بدء التشغيل","manual":"الوضع اليدوي — التغييرات بموافقتك","warning":"أدوات محافظة. لا نعطّل خدمات ويندوز ولا نستخدم أولوية الوقت الحقيقي.","drivers":"التعريفات بدون إنترنت","drvsub":"فحص مجلد Drivers المرفق وتثبيت ملفات INF المطابقة دون إنترنت.","drvchoose":"اختيار مجلد التعريفات","drvinstall":"تثبيت التعريف المحدد","drvauto":"فحص وتثبيت التعريفات المتطابقة","drvempty":"لم يتم العثور على ملفات تعريف INF في هذا المجلد.","drvselect":"اختر ملف تعريف INF أولاً.","drvconfirm":"هل تريد تثبيت هذا التعريف باستخدام أداة ويندوز؟ ثبّت فقط تعريفاً مخصصاً لجهاز Acer Aspire 5336.","drvok":"قبل ويندوز أمر تثبيت التعريف. قد تحتاج إلى إعادة التشغيل.","drvfail":"فشل تثبيت التعريف. شغّل البرنامج كمسؤول وتأكد من توافق التعريف.","drvfolder":"مجلد التعريفات: {}","drvbackup":"نسخ احتياطي للتعريفات المثبتة","lang":"English","ask":"حذف الملفات المؤقتة؟ سيتم تخطي الملفات المستخدمة.","done":"تم حذف {} ملف وتخطي {}.","askrp":"طلب إنشاء نقطة استعادة؟ قد تحتاج صلاحيات المسؤول وحماية النظام.","rpok":"اكتمل أمر نقطة الاستعادة.","rpfail":"فشل إنشاء نقطة الاستعادة. شغّل كمسؤول وتحقق من حماية النظام.","noapp":"اختر عملية أولاً.","boostok":"تم تعيين الأولوية أعلى من العادية.","boostfail":"تعذر تغيير الأولوية."}}
 class App:
  def __init__(s,r,lang="en"):
   s.r=r;s.l=lang;s.t=TXT[s.l];s.pid=None;r.title("OPTIMIZE WIN 10 v1.0");set_window_icon(r);r.geometry("950x650");r.configure(bg=BG);r.minsize(800,520)
@@ -64,6 +64,7 @@ class App:
   s.btn(quick,"APP BOOSTER",s.apps).pack(side="left",padx=(0,8))
   s.btn(quick,s.t["cleanbtn"],s.cleaner).pack(side="left",padx=(0,8))
   s.btn(quick,s.t["restore"],s.restore).pack(side="left",padx=(0,8))
+  s.btn(quick,"DARK MODE / الوضع الداكن",s.toggle_windows_theme).pack(side="left",padx=(0,8))
   s.btn(quick,s.t["uninstall"],s.uninstall_apps).pack(side="left",padx=(0,8))
   s.btn(quick,s.t["drivers"],s.drivers).pack(side="left")
   s.btn(s.body,s.t["refresh"],s.refresh).pack(anchor="e",pady=5);s.tree(8)
@@ -353,9 +354,29 @@ class App:
    except Exception:pass
    s.r.after(400,update_time)
   s.r.after(400,update_time)
+ def toggle_windows_theme(s):
+  import winreg,ctypes
+  try:
+   keypath=r"Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize"
+   with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as k:
+    current=1
+    try:current=winreg.QueryValueEx(k,"AppsUseLightTheme")[0]
+    except OSError:pass
+    value=0 if current else 1
+    winreg.SetValueEx(k,"AppsUseLightTheme",0,winreg.REG_DWORD,value)
+    winreg.SetValueEx(k,"SystemUsesLightTheme",0,winreg.REG_DWORD,value)
+   try:
+    HWND_BROADCAST=0xffff;WM_SETTINGCHANGE=0x001A;SMTO_ABORTIFHUNG=0x0002
+    ctypes.windll.user32.SendMessageTimeoutW(HWND_BROADCAST,WM_SETTINGCHANGE,0,"ImmersiveColorSet",SMTO_ABORTIFHUNG,3000,None)
+   except Exception:pass
+   mode="Dark" if value==0 else "Light"
+   s.status.set("Windows theme: "+mode)
+   messagebox.showinfo("OPTIMIZE","Windows appearance switched to "+mode+" mode. Some apps may need to be reopened.")
+  except Exception as e:messagebox.showerror("OPTIMIZE","Could not change Windows theme. "+str(e))
  def settings(s):
   s.clear();s.head("settings",s.t["manual"])
   s.btn(s.body,s.t["restore"],s.restore).pack(anchor="w",pady=8)
+  s.btn(s.body,"TOGGLE WINDOWS DARK / LIGHT MODE — تبديل الوضع الداكن والفاتح",s.toggle_windows_theme).pack(anchor="w",pady=8)
   s.startup_btn=s.btn(s.body,"",s.toggle_startup);s.startup_btn.pack(anchor="w",pady=8)
   s.update_startup_label()
  def update_startup_label(s):
